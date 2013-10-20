@@ -58,26 +58,40 @@ namespace inKeyLauncher
 
         private void _btnRUN_Click(object sender, EventArgs e)
         {
+            // Проверка на наличие исполняемого файла "inKey"...            
+            if (!File.Exists("inKey.exe"))
+            {
+                MessageBox.Show("inKey.exe" + " is not found!",
+                    (((Button)sender).Parent).Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+                return;
+            }
+
             // Проверяем поля текстового ввода на корректное заполнение...
             if (_txtSourceFile.Text == string.Empty || _txtFilePassword.Text == string.Empty)
             {
                 MessageBox.Show("Please select source and password files!",
                     (((Button)sender).Parent).Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                
                 return;
             }
             
             // Проверяем наличие исходного файла...
             if (!File.Exists(_txtSourceFile.Text))
             {
-                MessageBox.Show(_txtSourceFile.Text + " file does not exist!",
+                MessageBox.Show(_txtSourceFile.Text + " is not found!",
                     (((Button)sender).Parent).Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                
+                return;
             }
 
             // Проверяем наличие файла-пароля...
             if (!File.Exists(_txtFilePassword.Text))
             {
-                MessageBox.Show(_txtFilePassword.Text + " file does not exist!",
+                MessageBox.Show(_txtFilePassword.Text + " is not found!",
                     (((Button)sender).Parent).Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                
+                return;
             }
 
             // Запускаем консольное приложение в выбранном режиме...
