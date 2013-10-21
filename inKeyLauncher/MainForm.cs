@@ -19,6 +19,8 @@ namespace inKeyLauncher
 
         private void _btnSourceFile_Click(object sender, EventArgs e)
         {
+            _openFileDialog.FileName = string.Empty;
+
             if (_openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 _txtSourceFile.Text = _openFileDialog.FileName;
@@ -27,6 +29,8 @@ namespace inKeyLauncher
         
         private void _btnFilePassword_Click(object sender, EventArgs e)
         {
+            _openFileDialog.FileName = string.Empty;
+
             if (_openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 _txtFilePassword.Text = _openFileDialog.FileName;
@@ -56,6 +60,11 @@ namespace inKeyLauncher
             Process inKeyProc = Process.Start(startInfo);
         }
 
+        /// <summary>
+        /// Минимальный размер блока для шифрования
+        /// </summary>
+        private const int MIN_ENC_BLOCK_SIZE = 100 * 1024;
+
         private void _btnRUN_Click(object sender, EventArgs e)
         {
             // Проверка на наличие исполняемого файла "inKey"...            
@@ -75,27 +84,50 @@ namespace inKeyLauncher
                 
                 return;
             }
+
+            // Извлекаем имена исходного и парольного файла...
+            string sourceFileName   = _txtSourceFile.Text;
+            string filePasswordName = _txtFilePassword.Text;
             
             // Проверяем наличие исходного файла...
-            if (!File.Exists(_txtSourceFile.Text))
+            if (!File.Exists(sourceFileName))
             {
-                MessageBox.Show(_txtSourceFile.Text + " is not found!",
+                MessageBox.Show(sourceFileName + " is not found!",
                     (((Button)sender).Parent).Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 
                 return;
             }
 
             // Проверяем наличие файла-пароля...
-            if (!File.Exists(_txtFilePassword.Text))
+            if (!File.Exists(filePasswordName))
             {
-                MessageBox.Show(_txtFilePassword.Text + " is not found!",
+                MessageBox.Show(filePasswordName + " is not found!",
                     (((Button)sender).Parent).Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 
                 return;
             }
 
+            // Проверяем размеры файлов...
+
+            // Размер исходного файла...
+            long sourceFileLength   = (new FileInfo(sourceFileName)).Length;
+            long filePasswordLength = (new FileInfo(filePasswordName)).Length;
+
+            // Вычисляем размер контейнера...
+            long containerSize = (sourceFileLength < MIN_ENC_BLOCK_SIZE) ? MIN_ENC_BLOCK_SIZE : sourceFileLength;
+            containerSize = _rbtnEncrypt.Checked ? containerSize + 4 : containerSize;
+
+            // Размер формируемого контейнера не может быть меньше минимального блока для шифрования...
+            if (filePasswordLength < containerSize)
+            {
+                MessageBox.Show("The file-password is too small!\nIt's size must be >= " + containerSize + " bytes!",
+                    (((Button)sender).Parent).Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                return;
+            }
+            
             // Запускаем консольное приложение в выбранном режиме...
-            Run((_rbtnEncrypt.Checked ? "e" : "d") + " " + _txtSourceFile.Text + " " + _txtFilePassword.Text);
+            Run((_rbtnEncrypt.Checked ? "e" : "d") + " \"" + sourceFileName + "\" \"" + filePasswordName + "\"");
         }
     }
 }

@@ -56,6 +56,7 @@
             // 
             this._openFileDialog.FileName = "openFileDialog";
             this._openFileDialog.Filter = "All files|*.*";
+            this._openFileDialog.ReadOnlyChecked = true;
             this._openFileDialog.RestoreDirectory = true;
             // 
             // _btnFilePassword
@@ -166,7 +167,7 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "inKey 6.00.X Launcher";
+            this.Text = "inKey 6.00.X Launcher v.0.02";
             ((System.ComponentModel.ISupportInitialize)(this._bmpLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
