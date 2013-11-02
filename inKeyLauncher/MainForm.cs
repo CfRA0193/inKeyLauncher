@@ -75,6 +75,23 @@ namespace inKeyLauncher
                 
                 return;
             }
+           
+            _txtPasswordSelector.Text = _txtPasswordSelector.Text.Trim();
+            if (_txtPasswordSelector.Text != string.Empty)
+            {
+                try
+                {
+                    Convert.ToInt32(_txtPasswordSelector.Text);
+                }
+                catch
+                {
+                    _txtPasswordSelector.Text = "0"; // Значение поля текстового ввода по-умолчанию...                    
+                }
+            }
+            else
+            {
+                _txtPasswordSelector.Text = "0"; // Значение поля текстового ввода по-умолчанию...            
+            }
 
             // Проверяем поля текстового ввода на корректное заполнение...
             if (_txtSourceFile.Text == string.Empty || _txtFilePassword.Text == string.Empty)
@@ -127,7 +144,7 @@ namespace inKeyLauncher
             }
             
             // Запускаем консольное приложение в выбранном режиме...
-            Run((_rbtnEncrypt.Checked ? "e" : "d") + " \"" + sourceFileName + "\" \"" + filePasswordName + "\"");
+            Run((_rbtnEncrypt.Checked ? "e" : "d") + " \"" + sourceFileName + "\" \"" + filePasswordName + "\" " + _txtPasswordSelector.Text);
         }
     }
 }

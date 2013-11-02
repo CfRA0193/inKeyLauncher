@@ -150,25 +150,13 @@
   <metadata name="_rbtnDecrypt.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="label1.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="_txtPasswordSelector.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        AAABAAEAICAQAAEABADoAgAAFgAAACgAAAAgAAAAQAAAAAEABAAAAAAAgAIAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAgICAAMDAwAAAAP8AAP8AAAD//wD/AAAA/wD/AP//
-        AAD///8A////////iHd3iP/////////////4dwB3d3B3j//////////4cHf/////hweP////////cH//
-        h3AAB3eHB///////93j/hwd4iIh3B3d//////3f/h3j///////d3d/////d/+Aj/////////93B///+H
-        /4f///////////+HCP//f/h//////////////3D/93/3/4iPiI/4d3ePj//wf/B/eP93f3h/h3AAj3j/
-        +A+Af3//d394f3h4//94//94cHiP/3d/eH9/eP//eP//d3B4//93f3h4f3j//3j//4cAeP//d394eH94
-        //94///3AHj//3d/eAePd3f/eP//9wB4//94f3gH/3AH/wf///cAeP//eAd4d/94//h3///3cHj//3hw
-        iHePeP/3d///h3B4j/////h4f3j/9/eP/3eAf3/////4f394//f4f/948H94/3//+H94cACH+H/4D/d/
-        9/+P//iPiId3iP9/8H//f/h//////////////3D//4f/h////////////4cI///3f/gI//////////dw
-        f////3f/h3j///////d3d//////3eP+HB3iIiHcHd3///////3B//4dwAAd3hwf////////4cHf/////
-        hweP//////////h3AHd3cHeP/////////////4h3d4j///////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
-</value>
-  </data>
 </root>
