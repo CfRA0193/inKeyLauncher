@@ -39,8 +39,9 @@
             this._btnRUN = new System.Windows.Forms.Button();
             this._rbtnEncrypt = new System.Windows.Forms.RadioButton();
             this._rbtnDecrypt = new System.Windows.Forms.RadioButton();
-            this.label1 = new System.Windows.Forms.Label();
+            this._txtPasswordSelectorLabel = new System.Windows.Forms.Label();
             this._txtPasswordSelector = new System.Windows.Forms.MaskedTextBox();
+            this._btnPasswordSelectorRND = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._bmpLogo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -133,7 +134,7 @@
             this._rbtnEncrypt.Location = new System.Drawing.Point(462, 65);
             this._rbtnEncrypt.Name = "_rbtnEncrypt";
             this._rbtnEncrypt.Size = new System.Drawing.Size(61, 17);
-            this._rbtnEncrypt.TabIndex = 8;
+            this._rbtnEncrypt.TabIndex = 9;
             this._rbtnEncrypt.TabStop = true;
             this._rbtnEncrypt.Text = "Encrypt";
             this._rbtnEncrypt.UseVisualStyleBackColor = true;
@@ -148,16 +149,16 @@
             this._rbtnDecrypt.Text = "Decrypt";
             this._rbtnDecrypt.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // _txtPasswordSelectorLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.ForeColor = System.Drawing.Color.CadetBlue;
-            this.label1.Location = new System.Drawing.Point(98, 86);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(87, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Pass. selector";
+            this._txtPasswordSelectorLabel.AutoSize = true;
+            this._txtPasswordSelectorLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this._txtPasswordSelectorLabel.ForeColor = System.Drawing.Color.CadetBlue;
+            this._txtPasswordSelectorLabel.Location = new System.Drawing.Point(98, 86);
+            this._txtPasswordSelectorLabel.Name = "_txtPasswordSelectorLabel";
+            this._txtPasswordSelectorLabel.Size = new System.Drawing.Size(87, 13);
+            this._txtPasswordSelectorLabel.TabIndex = 7;
+            this._txtPasswordSelectorLabel.Text = "Pass. selector";
             // 
             // _txtPasswordSelector
             // 
@@ -166,15 +167,26 @@
             this._txtPasswordSelector.Mask = "0000000000";
             this._txtPasswordSelector.Name = "_txtPasswordSelector";
             this._txtPasswordSelector.Size = new System.Drawing.Size(66, 20);
-            this._txtPasswordSelector.TabIndex = 7;
+            this._txtPasswordSelector.TabIndex = 8;
+            // 
+            // _btnPasswordSelectorRND
+            // 
+            this._btnPasswordSelectorRND.Location = new System.Drawing.Point(100, 59);
+            this._btnPasswordSelectorRND.Name = "_btnPasswordSelectorRND";
+            this._btnPasswordSelectorRND.Size = new System.Drawing.Size(81, 23);
+            this._btnPasswordSelectorRND.TabIndex = 6;
+            this._btnPasswordSelectorRND.Text = "Selector RND";
+            this._btnPasswordSelectorRND.UseVisualStyleBackColor = true;
+            this._btnPasswordSelectorRND.Click += new System.EventHandler(this._btnPasswordSelectorRND_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(557, 114);
+            this.Controls.Add(this._btnPasswordSelectorRND);
             this.Controls.Add(this._txtPasswordSelector);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this._txtPasswordSelectorLabel);
             this.Controls.Add(this._rbtnDecrypt);
             this.Controls.Add(this._rbtnEncrypt);
             this.Controls.Add(this._btnRUN);
@@ -189,7 +201,7 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "inKey 6.00.P Launcher v.0.03";
+            this.Text = "inKey 6.00.P Launcher v.0.04";
             ((System.ComponentModel.ISupportInitialize)(this._bmpLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -209,8 +221,9 @@
         private System.Windows.Forms.Button _btnRUN;
         private System.Windows.Forms.RadioButton _rbtnEncrypt;
         private System.Windows.Forms.RadioButton _rbtnDecrypt;
-        internal System.Windows.Forms.Label label1;
+        internal System.Windows.Forms.Label _txtPasswordSelectorLabel;
         private System.Windows.Forms.MaskedTextBox _txtPasswordSelector;
+        private System.Windows.Forms.Button _btnPasswordSelectorRND;
     }
 }
 

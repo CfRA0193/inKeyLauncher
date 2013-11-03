@@ -146,5 +146,14 @@ namespace inKeyLauncher
             // Запускаем консольное приложение в выбранном режиме...
             Run((_rbtnEncrypt.Checked ? "e" : "d") + " \"" + sourceFileName + "\" \"" + filePasswordName + "\" " + _txtPasswordSelector.Text);
         }
+
+        /// <summary>
+        /// Инициализация селектора ключа псевдослучайным значением.
+        /// </summary>
+        private void _btnPasswordSelectorRND_Click(object sender, EventArgs e)
+        {
+            Random rnd = new Random((int)DateTime.Now.Ticks);
+            _txtPasswordSelector.Text = rnd.Next().ToString();
+        }
     }
 }
