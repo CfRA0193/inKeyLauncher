@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("inKeyLauncher")]
-[assembly: AssemblyDescription("inKey 6.00.P Launcher")]
+[assembly: AssemblyDescription("inKey 6.00.Q Launcher")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("DrAF")]
+[assembly: AssemblyCompany("Artem Drobanov (DrAF)")]
 [assembly: AssemblyProduct("inKeyLauncher")]
-[assembly: AssemblyCopyright("Copyright © DrAF, Cherepovets, 2003 - 2013.")]
+[assembly: AssemblyCopyright("Copyright © DrAF, Cherepovets, 2003 - 2014.")]
 [assembly: AssemblyTrademark("inKey")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.4.7")]
-[assembly: AssemblyFileVersion("1.0.4.7")]
+[assembly: AssemblyVersion("1.0.5.9")]
+[assembly: AssemblyFileVersion("1.0.5.9")]

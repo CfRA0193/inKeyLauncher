@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
 
 namespace inKeyLauncher
@@ -17,6 +12,9 @@ namespace inKeyLauncher
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Выбор исходного файла.
+        /// </summary>
         private void _btnSourceFile_Click(object sender, EventArgs e)
         {
             _openFileDialog.FileName = string.Empty;
@@ -26,19 +24,22 @@ namespace inKeyLauncher
                 _txtSourceFile.Text = _openFileDialog.FileName;
             }
         }
-        
-        private void _btnFilePassword_Click(object sender, EventArgs e)
+
+        /// <summary>
+        /// Выбор файла-ключа.
+        /// </summary>
+        private void _btnKeyFile_Click(object sender, EventArgs e)
         {
             _openFileDialog.FileName = string.Empty;
 
             if (_openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                _txtFilePassword.Text = _openFileDialog.FileName;
+                _txtKeyFile.Text = _openFileDialog.FileName;
             }
         }
 
         /// <summary>
-        /// Запуск консольной утилиты inKey 6.00.X.
+        /// Запуск консольной утилиты inKey 6.00.Q.
         /// </summary>
         /// <param name="args">Аргументы командной строки.</param>
         private static void Run(string args)
@@ -47,7 +48,7 @@ namespace inKeyLauncher
             var startInfo = new ProcessStartInfo
             {
                 // Имя исполняемого файла...
-                FileName = "inKey.exe",
+                FileName = EXE_FILENAME,
 
                 // Окно делаем скрытым...
                 WindowStyle = ProcessWindowStyle.Normal,
@@ -60,51 +61,78 @@ namespace inKeyLauncher
             Process inKeyProc = Process.Start(startInfo);
         }
 
-        /// <summary>
-        /// Минимальный размер блока для шифрования
-        /// </summary>
-        private const int MIN_ENC_BLOCK_SIZE = 100 * 1024;
+        /// <summary>Минимальный размер блока для шифрования (по-умолчанию, Кб).</summary>
+        private const int MINIMAL_KEY_SIZE_DEFAULT = 100;
 
+        /// <summary>Размер int32.</summary>
+        private const int INT32_SIZE = 4;
+
+        /// <summary>Размер int32.</summary>
+        private const string EXE_FILENAME = "inKey.exe";
+
+        /// <summary>
+        /// Запуск обработки данных.
+        /// </summary>
         private void _btnRUN_Click(object sender, EventArgs e)
         {
             // Проверка на наличие исполняемого файла "inKey"...            
-            if (!File.Exists("inKey.exe"))
+            if (!File.Exists(EXE_FILENAME))
             {
-                MessageBox.Show("inKey.exe" + " is not found!",
+                MessageBox.Show(EXE_FILENAME + " is not found!",
                     (((Button)sender).Parent).Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 
                 return;
             }
            
-            _txtPasswordSelector.Text = _txtPasswordSelector.Text.Trim();
-            if (_txtPasswordSelector.Text != string.Empty)
+            // Считываем селектор ключа...
+            _txtKeySelector.Text = _txtKeySelector.Text.Trim();
+            if (_txtKeySelector.Text != string.Empty)
             {
                 try
                 {
-                    Convert.ToInt32(_txtPasswordSelector.Text);
+                    Convert.ToInt32(_txtKeySelector.Text);
                 }
                 catch
                 {
-                    _txtPasswordSelector.Text = "0"; // Значение поля текстового ввода по-умолчанию...                    
+                    _txtKeySelector.Text = "0"; // Значение поля текстового ввода по-умолчанию...                    
                 }
             }
             else
             {
-                _txtPasswordSelector.Text = "0"; // Значение поля текстового ввода по-умолчанию...            
+                _txtKeySelector.Text = "0"; // Значение поля текстового ввода по-умолчанию...            
+            }
+            
+            // Считываем минимальный размер блока для шифрования...
+            _txtMinKeySize.Text = _txtMinKeySize.Text.Trim();
+            int minEncBlockSize = 0;
+            if (_txtMinKeySize.Text != string.Empty)
+            {
+                try
+                {
+                    minEncBlockSize = Convert.ToInt32(_txtMinKeySize.Text);
+                }
+                catch
+                {
+                    _txtMinKeySize.Text = MINIMAL_KEY_SIZE_DEFAULT.ToString();
+                }
+            }
+            else
+            {
+                _txtMinKeySize.Text = MINIMAL_KEY_SIZE_DEFAULT.ToString();
             }
 
             // Проверяем поля текстового ввода на корректное заполнение...
-            if (_txtSourceFile.Text == string.Empty || _txtFilePassword.Text == string.Empty)
+            if (_txtSourceFile.Text == string.Empty || _txtKeyFile.Text == string.Empty)
             {
-                MessageBox.Show("Please select source and password files!",
+                MessageBox.Show("Select source file and key file, please!",
                     (((Button)sender).Parent).Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 
                 return;
             }
 
-            // Извлекаем имена исходного и парольного файла...
-            string sourceFileName   = _txtSourceFile.Text;
-            string filePasswordName = _txtFilePassword.Text;
+            // Извлекаем имена исходного и ключевого файла...
+            string sourceFileName = _txtSourceFile.Text;
+            string keyFileName    = _txtKeyFile.Text;
             
             // Проверяем наличие исходного файла...
             if (!File.Exists(sourceFileName))
@@ -115,10 +143,10 @@ namespace inKeyLauncher
                 return;
             }
 
-            // Проверяем наличие файла-пароля...
-            if (!File.Exists(filePasswordName))
+            // Проверяем наличие файла-ключа...
+            if (!File.Exists(keyFileName))
             {
-                MessageBox.Show(filePasswordName + " is not found!",
+                MessageBox.Show(keyFileName + " is not found!",
                     (((Button)sender).Parent).Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 
                 return;
@@ -127,33 +155,42 @@ namespace inKeyLauncher
             // Проверяем размеры файлов...
 
             // Размер исходного файла...
-            long sourceFileLength   = (new FileInfo(sourceFileName)).Length;
-            long filePasswordLength = (new FileInfo(filePasswordName)).Length;
-
+            long sourceFileLength = (new FileInfo(sourceFileName)).Length;
+            long KeyFileLength    = (new FileInfo(keyFileName)).Length;
+            
             // Вычисляем размер контейнера...
-            long containerSize = (sourceFileLength < MIN_ENC_BLOCK_SIZE) ? MIN_ENC_BLOCK_SIZE : sourceFileLength;
-            containerSize = _rbtnEncrypt.Checked ? containerSize + 4 : containerSize;
+            long containerSize = (sourceFileLength < minEncBlockSize) ? minEncBlockSize : sourceFileLength;
+            containerSize      = _rbtnEncrypt.Checked ? containerSize + INT32_SIZE : containerSize;
 
             // Размер формируемого контейнера не может быть меньше минимального блока для шифрования...
-            if (filePasswordLength < containerSize)
+            if (KeyFileLength < containerSize)
             {
-                MessageBox.Show("The file-password is too small!\nIt's size must be >= " + containerSize + " bytes!",
+                MessageBox.Show("The key file is too small!\nIt's size must be >= " + containerSize + " bytes!",
                     (((Button)sender).Parent).Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
                 return;
             }
             
             // Запускаем консольное приложение в выбранном режиме...
-            Run((_rbtnEncrypt.Checked ? "e" : "d") + " \"" + sourceFileName + "\" \"" + filePasswordName + "\" " + _txtPasswordSelector.Text);
+            Run((_rbtnEncrypt.Checked ? "e" : "d") + " \"" + sourceFileName + "\" \"" + keyFileName + "\" "
+                 + _txtKeySelector.Text + " " + _txtMinKeySize.Text);
         }
 
         /// <summary>
         /// Инициализация селектора ключа псевдослучайным значением.
         /// </summary>
-        private void _btnPasswordSelectorRND_Click(object sender, EventArgs e)
+        private void _btnKeySelectorRND_Click(object sender, EventArgs e)
         {
             Random rnd = new Random((int)DateTime.Now.Ticks);
-            _txtPasswordSelector.Text = rnd.Next().ToString();
+            _txtKeySelector.Text = rnd.Next().ToString();
+        }
+
+        /// <summary>
+        /// Установка минимального размера ключа по-умолчанию.
+        /// </summary>
+        private void _btnMinKeySizeDefault_Click(object sender, EventArgs e)
+        {
+            _txtMinKeySize.Text = "100";
         }
     }
 }
